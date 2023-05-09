@@ -11,7 +11,7 @@ import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
 
-class App extends React.Component {
+function App() {
 
   constructor(props) {
     super(props);
