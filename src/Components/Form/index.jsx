@@ -2,20 +2,19 @@ import React from 'react';
 
 import './Form.scss';
 
-class Form extends React.Component {
+function Form() {
 
-  handleSubmit = e => {
+  return (
+
+  handleSubmit = (e)  => {
     e.preventDefault();
     const formData = {
       method:'GET',
       url: 'https://pokeapi.co/api/v2/pokemon',
     };
     this.props.handleApiCall(formData);
-  }
-
-  render() {
-    return (
-      <>
+  },
+  <>
         <form onSubmit={this.handleSubmit}>
           <label >
             <span>URL: </span>
@@ -29,9 +28,9 @@ class Form extends React.Component {
             <span id="delete">DELETE</span>
           </label>
         </form>
-      </>
+    </>
     );
-  }
+
 }
 
 export default Form;
