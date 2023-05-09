@@ -8,7 +8,6 @@ function App() {
   
   const [data, setData] = useState(null);
   const [requestParams, setRequestParams] = useState({});
-  
   const callApi = (params) => {
     // mock output
     const data = {
@@ -20,7 +19,6 @@ function App() {
     };
     setData(data);
     setRequestParams(params);
-  }
   
   return (
     <>
@@ -32,6 +30,7 @@ function App() {
       <Footer />
     </>
   );
+  }
 }
 
 export default App;
