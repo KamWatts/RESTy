@@ -3,17 +3,22 @@ import './Form.scss';
 
 
 function Form({ handleApiCall }) {
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(null);
   const [method, setMethod] = useState('GET');
-  const [body, setBody] = useState('');
-
+  const [body, setBody] = useState(null);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
       method: method,
       url: url,
-      body: body
     };
+
+    if (method !== 'GET') {
+       formData.body = body;
+    }
+
+    console.log('Should return the API', formData);
     handleApiCall(formData);
   };
 
@@ -30,15 +35,15 @@ function Form({ handleApiCall }) {
           <button type='submit'>GO!</button>
         </label>
         <label className='methods'>
-          <span id='get' className={ method === 'GET' ? 'active' : ''} onClick={handleMethodChange}>GET</span>
-          <span id='post' className ={ method === 'POST' ? 'active' : ''} onClick={handleMethodChange}>POST</span>
-          <span id='put' className={ method === 'PUT' ? 'active' : ''} onClick={handleMethodChange}>PUT</span>
-          <span id='delete' className={ method === 'DELETE' ? 'active' : ''} onClick={handleMethodChange}>DELETE</span>
+          <button id='get' className={ method === 'GET' ? 'active' : ''}>GET</button>
+          <button id='post' className ={ method === 'POST' ? 'active' : ''} onClick={handleMethodChange}>POST</button>
+          <button id='put' className={ method === 'PUT' ? 'active' : ''} onClick={handleMethodChange}>PUT</button>
+          <button id='delete' className={ method === 'DELETE' ? 'active' : ''} onClick={handleMethodChange}>DELETE</button>
         </label>
         {(method === 'POST' || method === 'PUT')  &&
         <label>
           <span> Body: </span>
-          <textarea name='body' value={body} onChange={ (e) => setBody(e.target.value)} />
+          <textarea name='body' value={body} onChange={ (e) => setBody(e.target.value)}></textarea>
         </label>}
       </form>
     </>

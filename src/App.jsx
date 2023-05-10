@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import './App.scss';
 
 // Let's talk about using index.js and some other name in the component folder.
@@ -11,32 +10,60 @@ import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
 
+
 function App() {
 
-  const [ request, setRequest ] = useState();
+  const [ request, setRequest ] = useState(null);
   const [ response, setResponse ] = useState(null)
   const [ data, setData ] = useState(null);
   const [ loading, setLoading ] = useState(true);
 
+  // const fetchData = () => {
+  //   fetch('https://swapi.dev/api/people/1/')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setData(data);
+  //       setLoading(false);
+  //     })
+  //     .catch(error => console.error(error));
+  // };
+
   useEffect(() => {
-    fetch('https://swapi.dev/api/people/1/')
-    .then( response => response.json())
-    .then( data => {
-      setData(data);
-      setLoading(false);
-    })
-    .catch( error => console.error(error));
+    setLoading();
   }, []);
+
+
+  const handleApiCall = async (formData) => {
+    console.log('test for formData', formData);
+    try {
+      const response = await fetch(formData.url, {
+        method: formData.method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData.body),
+      });
+      console.log('response test', response);
+      const data = await response.json();
+      console.log(data);
+      setData(data);
+      // Do something with the response data, such as updating state
+    } catch (error) {
+      console.error(error);
+      // Handle any errors that occur during the API call
+    }
+  };
+  
 
   return (
     <>
       <Header />
-        <div>Request Method: {request}</div>
-        <div>
-          URL: {loading ? <p>Loading...</p> : <Results data={data}/>}
-        </div>
-        <Form request={request} setRequest={setRequest} setResponse={setResponse} />
+        <Form request={request} setRequest={setRequest} setResponse={setResponse} handleApiCall={handleApiCall}/>
         <Results data={response} />
+        <div>{request}</div>
+        <div>
+          JSON Data: { {loading} ? <Results data={data}/> : <p>Error loading data object</p> }
+        </div>
         <Footer />
     </>
   )
